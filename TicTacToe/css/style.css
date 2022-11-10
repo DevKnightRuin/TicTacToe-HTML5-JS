@@ -19,3 +19,16 @@ img{
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
+
+
+/* 
+player 1 info - left side of screen
+computer/player 2 info - right side of screen
+
+.disabled{
+    disable the gameboard
+}
+
+.enabled{
+    enable the gameboard
+} */
