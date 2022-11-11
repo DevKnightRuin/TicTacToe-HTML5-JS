@@ -19,16 +19,16 @@ let activeGamePiece;
 
 //Arrays of Rows and columns for fast vitory check - don't need to remake every time we check
 // event listeners for each tile
-const arrRowTop = [ , , ]
-const arrRowMid = [ , , ]
-const arrRowBot = [ , , ]
+const arrRowTop = [ tile1, tile2, tile3]
+const arrRowMid = [ tile4, tile5, tile6]
+const arrRowBot = [ tile7, tile8, tile9]
 
-const arrColTop = [ , , ]
-const arrColMid = [ , , ]
-const arrColBot = [ , , ]
+const arrColTop = [ tile1, tile4, tile7]
+const arrColMid = [ tile2, tile5, tile8]
+const arrColBot = [ tile3, tile6, tile9]
 
-const arrDiagLeft = [ , , ]
-const arrDiagRight = [ , , ]
+const arrDiagLeft =  [ tile1, tile5, tile9]
+const arrDiagRight = [ tile7, tile5, tile3]
 
 const arrTiles = [
     arrRowTop, 
