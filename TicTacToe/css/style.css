@@ -10,16 +10,111 @@
 /******************************************
 /* LAYOUT
 /*******************************************/
-img{
-  display: block;
-  margin: 0 auto;
+/* img{
+  width: 200px;
+  height: auto;
+} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.player-board {
+  border: 2px solid black;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  background: #eee
+}
+.player-board section {
+  border: 2px solid black;
+  margin: 20px;
+  width: 300px;
+  justify-content: center;
+}
+.player-board section img {
+  width: 300px;
+  height: auto;
+}
+.player1 {
+  align-items: center;
+}
+.container {
+  padding: 35px;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #eee;
+}
+.play-area {
+  display: grid;
+  width: 500px;
+  height: 500px;
+  grid-template-columns: 33% 33% 33%;
+}
+.block {
+  display: flex;
+  width: 170px;
+  height: 155px;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 3px solid black;
+  transition: background 0.2s ease-in-out;
+}
+#block_0,
+#block_1,
+#block_2 {
+  border-top: none;
 }
 
+#block_0,
+#block_3,
+#block_6 {
+  border-left: none;
+}
 
+#block_6,
+#block_7,
+#block_8 {
+  border-bottom: none;
+}
+
+#block_2,
+#block_5,
+#block_8 {
+  border-right: none;
+}
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
+button {
+  margin-top: 20px;
+  outline: none;
+  border: 4px solid pink;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: none;
+  transition: all 0.2s ease-in-out;
+}
 
+button:hover {
+  cursor: pointer;
+  background: pink;
+  color: orangered;
+}
+.block:hover {
+  cursor: pointer;
+  background: pink;
+}
+.occupied:hover {
+  background: #ff3a3a;
+}
 
 /* 
 player 1 info - left side of screen
@@ -32,3 +127,7 @@ computer/player 2 info - right side of screen
 .enabled{
     enable the gameboard
 } */
+
+
+
+
