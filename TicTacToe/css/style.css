@@ -8,12 +8,8 @@
 }
 
 /******************************************
-/* LAYOUT
-/*******************************************/
-/* img{
-  width: 200px;
-  height: auto;
-} */
+/* PLAYER BOARD
+/******************************************/
 * {
   margin: 0;
   padding: 0;
@@ -23,23 +19,27 @@
 .player-board {
   border: 2px solid black;
   display: flex;
-  flex-flow: row;
+  /* flex-flow: row; */
   justify-content: space-around;
   background: #eee
 }
 .player-board section {
-  border: 2px solid black;
+  display: flex;
+  border: 2px solid blue;
   margin: 20px;
   width: 300px;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .player-board section img {
   width: 300px;
   height: auto;
 }
-.player1 {
-  align-items: center;
-}
+
+/******************************************
+/* GAME BOARD
+/******************************************/
 .container {
   padding: 35px;
   min-height: 50vh;
@@ -108,10 +108,10 @@ button:hover {
   background: pink;
   color: orangered;
 }
-.block:hover {
+/* .block:hover {
   cursor: pointer;
   background: pink;
-}
+} */
 .occupied:hover {
   background: #ff3a3a;
 }
