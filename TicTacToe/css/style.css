@@ -115,6 +115,17 @@ button:hover {
 .occupied:hover {
   background: #ff3a3a;
 }
+/******************************************
+/* WINNER ARROW
+/*******************************************/
+.winner-arrow {
+  display: none;
+}
+
+
+
+
+
 
 /* 
 player 1 info - left side of screen
