@@ -1,7 +1,7 @@
 //initialize game pieces
 const playerGamePiece = "img\goku.png";
 const cpuGamePiece = "img\vegeta.png"
-let isFirstMove = false;  //Variable only matters to cpu if making first move
+// let isFirstMove = false;  //Variable only matters to cpu if making first move
 //Initialize event listeners with 1-9 top left = 1, left to right and top to bottom order
 const tile1 = document.querySelector('') = addEventListener('click', applyGamePiece)
 const tile2 = document.querySelector('') = addEventListener('click', applyGamePiece)
@@ -14,8 +14,8 @@ const tile8 = document.querySelector('') = addEventListener('click', applyGamePi
 const tile9 = document.querySelector('') = addEventListener('click', applyGamePiece)
 
 
-let activePlayer; //Player ready to make a move
-let activeGamePiece; //The placemarker for the active player
+var activePlayer = ""; //Player ready to make a move
+var activeGamePiece; //The placemarker for the active player
 
 //Arrays of Rows and columns for fast vitory check - don't need to remake every time we check
 const arrRowTop = [ tile1, tile2, tile3]
@@ -42,34 +42,16 @@ const arrTiles = [
 //array of availble places.  Maybe remove eventlistener for the played tile to prevent player from causing an error
 const arrPlayableTiles = [ tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9 ]
 
-// gamestate - whos turn is currently active (use Math.rondom() to see who gets higher Number. 0-1)- active user gets image on board
+
 // decide who goes first
 
 //**********************  GAME LOOP  ********************* */
-function PlayGame(){
+whoGoesFirst();
+PlayerTurn(); 
+cpuTurn();
 
-    while(playing)
-    { 
-        while(activePlayer == "player"){
-            PlayerTurn(); 
-            
-        }
-    
-        while(activePlayer == "cpu"){
-            cpuTurn();
-        }   
-    }
-
-    //What happens at the end of the game loop??
-}
 
 //Add score streak to local storage
-
-//input modal box with start a new game??
-if(newgame == true){
-    resetGameBoard();
-    PlayGame();
-}
 
 
 //********************  Functions  *********************** */
@@ -77,7 +59,7 @@ if(newgame == true){
             // *****Game flow functions *****
 
 function PlayerTurn(){
-    if(activeGamePiece != playerGamePiece){ //then initialize all stuff
+
 //ACtivate player input
     document.querySelector('gameBoard').classList.add('active');
     document.querySelector('gameBoard').classList.remove('inactive');
@@ -86,8 +68,8 @@ function PlayerTurn(){
     document.querySelector('p1Activity').innerHTML = "Player is thinking...";
 //set active game piece to be goku
     activeGamePiece = playerGamePiece
-    }
 }
+
 
 function cpuTurn(){
 
@@ -100,71 +82,54 @@ function cpuTurn(){
     //set active game piece to vegeta
      activeGamePiece = cpuGamePiece;
      
-    //show display that it is the cpu's turn to move move - and
+    //show display that it is the cpu's turn to mmove
     document.querySelector('').innerHTML = "Cpu is thinking..."
 
-    //add delay timer to mimick someone thinking - display cpun is thinking que for 3 seconds
-    setTimeout( () => { }, 3000)
+    //add delay timer to mimick someone thinking
+    setTimeout( await, () => { }, 2000)
 
     cpuMove();    
+    PlayerTurn();
 }
 //*****Game Action Functions*****
 
-function cpuMove(){
-    //choose location if cpu has first move
-    if(isFirstMove){
-        cpuRandomMove();
-        isFirstMove = false;
-    }
-    
+function cpuMove(){  
+    cpuRandomMove();
     //decide how computer moves
     // if tile  =  1 0 - 
     //             - 1 0 
     //             - - -
-
-    //first move, any block around player, if no player blocks pick random spot on board
-   
-}
-    //when player moves, check arrays to see if player1 has a piece but player 2 doesn't, and place cpu piece in that spot
-
     //If player1 has 2 elements and the last one is empty, priotitize that spot
-
+}
 
 function cpuRandomMove(){
     let rand = getRandomInt(0, arrPlayableTiles.length -1); //Choose a random loation based on the avaialble tiles
-    rand.src = activeGamePiece;
+    arrPlayableTiles[rand].src = activeGamePiece; //get the info from playable tile and apply game piece to it
     arrPlayableTiles.shift(rand); //remove the tile we just played from the playable array
-    
-
 }
 
 function whoGoesFirst(){
-    if(Math.random() < .5)
+    if(Math.random() < .5){
         activePlayer = "player";
-    else
-        activePlayer = "cpu";
-
-    isFirstMove = true;    
+        PlayerTurn();
+    }
+    else{
+    activePlayer = "cpu";
+    cpuTurn()
+    }
 }
 
 function applyGamePiece(){
-    if(){
-
-        if(activePlayer == "player"){
-            
-            activePlayer = "cpu";
-            activeGamePiece = cpuGamePiece;
-        }
-        else{
-        }
-    }
+        this.src = activeGamePiece; //need to access the tile that queued the event
+        arrPlayableTiles.shift(this);
+        cpuTurn();
 }
 
 function clearGameBoard(){
     //loop through each row and clear the board
-    arrRowTop.forEach( (element) => element.src != "" ? "" : "" );
-    arrRowMid.forEach( (element) => element.src != "" ? "" : "" );
-    arrRowBot.forEach( (element) => element.src != "" ? "" : "" );
+    arrRowTop.forEach( (element) => element.src = "");
+    arrRowMid.forEach( (element) => element.src = "");
+    arrRowBot.forEach( (element) => element.src = "");
 }
 
 function checkForWinner(){
@@ -180,13 +145,13 @@ function checkForWinner(){
     arrTiles.forEach( (element => {
         if(element.every(p1Winner)){
             p1Victory();
-            playing = false;
-            activePlayer = ""; //disable player to prevent going back into the turn loops
+            // playing = false;
+            // activePlayer = ""; //disable player to prevent going back into the turn loops
         }
         else if(element.every(p2Winner)){
             p2Victory();
-            playing = false;
-            activePlayer = ""; //disable player to prevent going back into the turn loops
+            // playing = false;
+            // activePlayer = ""; //disable player to prevent going back into the turn loops
         }
     }))
 }
@@ -196,11 +161,13 @@ function checkForWinner(){
 function p1Victory(){
     alert("Player 1 wins");
     //disable inputs
+    resetGameBoard();//restart
 }
 
 function p2Victory(){
     alert("CPU Wins"); 
     //disable inputs
+    resetGameBoard();
 }
 
 function resetGameBoard(){
@@ -208,13 +175,11 @@ function resetGameBoard(){
     clearGameBoard();
 
     //setup the players
-    let playing = true;
     whoGoesFirst();
 
     //Lets play Tic Tac Toe
     PlayGame();
 }
-
 
         //*****Utility *****/
 
