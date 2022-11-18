@@ -49,14 +49,16 @@ const arrTiles = [
     arrDiagLeft,
     arrDiagRight
 ]
+let arrPlayableTiles;
 //array of availble places.  Maybe remove eventlistener for the played tile to prevent player from causing an error
-const arrPlayableTiles = [ tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9 ]
+function setPlayableTiles(){ 
+    arrPlayableTiles = [ tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9 ]
+}
 
 
 //**********************  GAME LOOP  ********************* */
-whoGoesFirst();
-PlayerTurn(); 
-cpuTurn();
+resetGameBoard();
+
 
 
 //Add score streak to local storage
@@ -68,12 +70,14 @@ cpuTurn();
 function whoGoesFirst(){
     if(Math.random() < .5){
         activePlayer = "player";
+        playerTurn();
     }
     else{
     activePlayer = "cpu";
+    cpuTurn();
     }
 }
-function PlayerTurn(){
+function playerTurn(){
     //set active game piece
     activeGamePiece = playerGamePiece; 
 }
@@ -84,7 +88,7 @@ function cpuTurn(){
         cpuRandomMove();    
         checkForWinner();
         activePlayer = 'player'
-        PlayerTurn();
+        playerTurn();
     }
 }
 //*****Game Action Functions*****
@@ -150,6 +154,7 @@ function p2Victory(){
     //disable inputs
 }
 function resetGameBoard(){
+
     //loop through each row and clear the board
     arrRowTop.forEach( (element) => {
         element.src = "";
@@ -165,8 +170,10 @@ function resetGameBoard(){
     });
     document.getElementById('right-arrow').style.display = 'none'
     document.getElementById('left-arrow').style.display = 'none'
+    setPlayableTiles();
+    whoGoesFirst();
 }
-whoGoesFirst()
+
 // function resetGameBoard(){
 //     //clear all iamges on board
 //     clearGameBoard();
