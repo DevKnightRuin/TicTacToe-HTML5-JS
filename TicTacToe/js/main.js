@@ -1,6 +1,7 @@
 //initialize game pieces
 const playerGamePiece = "img/goku.png";
 const cpuGamePiece = "img/vegeta.png";
+
 // let isFirstMove = false;  //Variable only matters to cpu if making first move
 //Initialize event listeners with 1-9 top left = 1, left to right and top to bottom order
 const tile1 = document.querySelector('#block_0');
@@ -10,23 +11,23 @@ tile2.addEventListener('click', applyGamePiece)
 const tile3 = document.querySelector('#block_2')
 tile3.addEventListener('click', applyGamePiece)
 const tile4 = document.querySelector('#block_3')
-tile3.addEventListener('click', applyGamePiece)
-const tile5 = document.querySelector('#block_4')
 tile4.addEventListener('click', applyGamePiece)
-const tile6 = document.querySelector('#block_5')
+const tile5 = document.querySelector('#block_4')
 tile5.addEventListener('click', applyGamePiece)
-const tile7 = document.querySelector('#block_6')
+const tile6 = document.querySelector('#block_5')
 tile6.addEventListener('click', applyGamePiece)
-const tile8 = document.querySelector('#block_7')
+const tile7 = document.querySelector('#block_6')
 tile7.addEventListener('click', applyGamePiece)
-const tile9 = document.querySelector('#block_8')
+const tile8 = document.querySelector('#block_7')
 tile8.addEventListener('click', applyGamePiece)
+const tile9 = document.querySelector('#block_8')
+tile9.addEventListener('click', applyGamePiece)
 
 
 var activePlayer = ""; //Player ready to make a move
 var activeGamePiece = ""; //The placemarker for the active player
 
-//Arrays of Rows and columns for fast vitory check - don't need to remake every time we check
+//Arrays of Rows and columns for fast victory check - don't need to remake every time we check
 const arrRowTop = [ tile1, tile2, tile3]
 const arrRowMid = [ tile4, tile5, tile6]
 const arrRowBot = [ tile7, tile8, tile9]
@@ -64,10 +65,17 @@ cpuTurn();
 //********************  Functions  *********************** */
 
             // *****Game flow functions *****
-
+function whoGoesFirst(){
+    if(Math.random() < .5){
+        activePlayer = "player";
+    }
+    else{
+    activePlayer = "cpu";
+    }
+}
 function PlayerTurn(){
     //set active game piece
-    activeGamePiece = playerGamePiece;
+    activeGamePiece = playerGamePiece; 
 }
 function cpuTurn(){
     //set active game piece to vegeta if it is the cpu's turn.  JS scripts execute once on load, check to see if cpu is active to prevent issus
@@ -81,46 +89,37 @@ function cpuTurn(){
 }
 //*****Game Action Functions*****
 
+
 function cpuRandomMove(){
-    
     let rand = getRandomInt(0, arrPlayableTiles.length -1); //Choose a random loation based on the avaialble tiles
-    console.log(rand);
-    console.log(arrPlayableTiles);
+    // console.log(rand);
     arrPlayableTiles[rand].src = activeGamePiece; //get the info from playable tile and apply game piece to it
-    delete arrPlayableTiles[rand]; //remove the tile we just played from the playable array
+    arrPlayableTiles[rand].removeEventListener("click", applyGamePiece) //remove eventListener after cpu plays
+    arrPlayableTiles.splice(rand, 1) 
+    console.log(arrPlayableTiles)
     //return an array without the blank indexes
 }
-function whoGoesFirst(){
-    if(Math.random() < .5){
-        activePlayer = "player";
-    }
-    else{
-    activePlayer = "cpu";
-    }
-}
+
 function applyGamePiece(){
     //alert('selected');
     this.src = activeGamePiece; //need to access the tile that queued the event
-    //delete arrPlayableTiles(index);  //this throws an error, we need to get the callers info 
-    console.log(this);
+    this.removeEventListener("click", applyGamePiece) //remove eventListener after Player1
+    let index = arrPlayableTiles.indexOf(this); 
+    arrPlayableTiles.splice(index, 1)
+    console.log(arrPlayableTiles)
     checkForWinner();
     
     activePlayer = 'cpu'
     cpuTurn();
 
 }
-function clearGameBoard(){
-    //loop through each row and clear the board
-    arrRowTop.forEach( (element) => element.src = "");
-    arrRowMid.forEach( (element) => element.src = "");
-    arrRowBot.forEach( (element) => element.src = "");
-}
+
 function checkForWinner(){
     //need condition to test if 3 of the same input is connected
     // Array.allEqual() checks all elements in the array if even
     isWinner = false;
-    const p1Winner = (currentValue) => currentValue == playerGamePiece;
-    const p2Winner = (currentValue) => currentValue ==  cpuGamePiece;
+    const p1Winner = (currentValue) => currentValue.getAttribute('src') == playerGamePiece;
+    const p2Winner = (currentValue) => currentValue.getAttribute('src') ==  cpuGamePiece;
     
     //Check all rows for same image
     //Check all columns for same image
@@ -141,23 +140,40 @@ function checkForWinner(){
         //*****End Game functions*****
 
 function p1Victory(){
-    alert("Player 1 wins");
+    document.getElementById('left-arrow').style.display = 'block'
+    // alert("Player 1 wins");
     //disable inputs
-    resetGameBoard();//restart
 }
 function p2Victory(){
-    alert("CPU Wins"); 
+    document.getElementById('right-arrow').style.display = 'block'
+    // alert("CPU Wins"); 
     //disable inputs
-    resetGameBoard();
 }
 function resetGameBoard(){
-    //clear all iamges on board
-    clearGameBoard();
-
-    //setup the players
-    whoGoesFirst();
-
+    //loop through each row and clear the board
+    arrRowTop.forEach( (element) => {
+        element.src = "";
+        element.addEventListener('click', applyGamePiece);
+    });
+    arrRowMid.forEach( (element) => {
+        element.src = ""
+        element.addEventListener('click', applyGamePiece);
+    });
+    arrRowBot.forEach( (element) => { 
+        element.src = ""
+        element.addEventListener('click', applyGamePiece);
+    });
+    document.getElementById('right-arrow').style.display = 'none'
+    document.getElementById('left-arrow').style.display = 'none'
 }
+whoGoesFirst()
+// function resetGameBoard(){
+//     //clear all iamges on board
+//     clearGameBoard();
+
+//     //setup the players
+//     whoGoesFirst(); 
+// }
         //*****Utility *****/
 
 function getRandomInt(min, max) {

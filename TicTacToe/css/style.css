@@ -118,7 +118,7 @@ button:hover {
 /******************************************
 /* WINNER ARROW
 /*******************************************/
-.winner-arrow {
+#left-arrow, #right-arrow {
   display: none;
 }
 
