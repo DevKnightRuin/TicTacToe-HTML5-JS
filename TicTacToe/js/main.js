@@ -106,15 +106,19 @@ function cpuRandomMove(){
 
 function applyGamePiece(){
     //alert('selected');
-    this.src = activeGamePiece; //need to access the tile that queued the event
-    this.removeEventListener("click", applyGamePiece) //remove eventListener after Player1
-    let index = arrPlayableTiles.indexOf(this); 
-    arrPlayableTiles.splice(index, 1)
-    console.log(arrPlayableTiles)
-    checkForWinner();
-    
-    activePlayer = 'cpu'
-    cpuTurn();
+    console.log(this);
+    if(arrPlayableTiles.includes(this)){
+
+        this.src = activeGamePiece; //need to access the tile that queued the event
+        this.removeEventListener("click", applyGamePiece) //remove eventListener after Player1
+        let index = arrPlayableTiles.indexOf(this); 
+        arrPlayableTiles.splice(index, 1)
+        console.log(arrPlayableTiles)
+        checkForWinner();
+        
+        activePlayer = 'cpu';
+        cpuTurn();
+    }
 
 }
 
@@ -147,11 +151,12 @@ function p1Victory(){
     document.getElementById('left-arrow').style.display = 'block'
     // alert("Player 1 wins");
     //disable inputs
+    arrPlayableTiles = [];
 }
 function p2Victory(){
     document.getElementById('right-arrow').style.display = 'block'
     // alert("CPU Wins"); 
-    //disable inputs
+    arrPlayableTiles = [];
 }
 function resetGameBoard(){
 
