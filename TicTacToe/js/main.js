@@ -149,12 +149,14 @@ function checkForWinner(){
 
 function p1Victory(){
     document.getElementById('left-arrow').style.display = 'block'
+    document.querySelector('#winnerDisplay').innerHTML = "WINNER";
     // alert("Player 1 wins");
     //disable inputs
     arrPlayableTiles = [];
 }
 function p2Victory(){
     document.getElementById('right-arrow').style.display = 'block'
+    document.querySelector('#winnerDisplay').innerHTML = "WINNER";
     // alert("CPU Wins"); 
     arrPlayableTiles = [];
 }
@@ -175,6 +177,7 @@ function resetGameBoard(){
     });
     document.getElementById('right-arrow').style.display = 'none'
     document.getElementById('left-arrow').style.display = 'none'
+    document.querySelector('#winnerDisplay').innerHTML = "";
     setPlayableTiles();
     whoGoesFirst();
 }
